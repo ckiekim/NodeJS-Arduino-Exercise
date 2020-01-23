@@ -1,0 +1,40 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-9">
+					<p class="navbar-brand"><h1>Smart Farm Execution System</h1></p>
+				</div>
+				<div class="col-md-3">
+				<%
+				if (session.getAttribute("uid") != null) {
+				%>
+					<p class="navbar-text navbar-right">
+						<a href="http://www.kma.go.kr/weather/forecast/timeseries.jsp?searchType=INTEREST&wideCode=4100000000&cityCode=4122000000&dongCode=4122032000" target="_blank">
+								<i class="glyphicon glyphicon-cloud"></i></a>&nbsp;
+						<a href="../weather/forecast.do">날씨정보</a>&nbsp;&nbsp;
+						<a href="../user/logout.do">로그아웃</a></p>
+					<p class="navbar-right">${sessionScope.name}님 환영합니다.</p>
+				<%
+				} else {
+					response.sendRedirect("../view/loginForm.jsp");
+				}
+				%>
+				</div>
+			</div>
+		</div>
+	</nav>
+	<div class="container">
+	    <div class="row" style="margin-top:90px">
+			<div class="col-md-2">
+				<!-- <br><br>
+				<ul class="nav nav-pills nav-stacked"> -->
+				<ul class="nav nav-pills nav-stacked affix" data-spy="affix" data-offset-top="150">
+					<li><a tabindex="-1" href="#">개갑 (開匣)</a></li>
+					<li><a tabindex="-1" href="#">육묘 (育苗)</a></li>
+					<li><a tabindex="-1" href="#">재배 (栽培)</a></li>
+					<li><a tabindex="-1" href="#">출하 (出荷)</a></li>
+					<li><a tabindex="-1" href="#">설정 (Setup)</a></li>
+				</ul>
+	      	</div>
