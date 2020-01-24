@@ -1,11 +1,4 @@
-module.exports.list = function(navBar, rows) {
-    let users = '';
-    for (row of rows) {
-        users += `
-            <tr>
-                <td>${row.uid}</td><td>${row.name}</td><td>${row.deptName}</td><td>${row.tel}</td><td>${row.ts}</td>
-            </tr>`;
-    }
+module.exports.deleteUser = function(navBar, uid) {
 	return `
 <html>
 <head>
@@ -46,28 +39,22 @@ module.exports.list = function(navBar, rows) {
         </div>
         <div class="col-10">
             <div class="row" style="margin-left: 10px">
-                <div class="col-12"><h3>사용자 조회</h3></div>
+                <div class="col-12"><h3>사용자 삭제</h3></div>
                 <div class="col-12"><hr></div>
-                <div class="col-11">
-                    <table class="table table-condensed table-hover">
-                        <thead class="thead-light">
-                            <tr class="active">
-                                <th scope="col">아이디</th><th scope="col">이름</th>
-                                <th scope="col">부서</th><th scope="col">전화번호</th>
-                                <th scope="col">등록일자</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${users}
-                        </tbody>
-                    </table>
+                <div class="col-2"></div>
+                <div class="col-4">
+                <form action="/user/delete" class="form-horizontal" method="POST">
+                    <input type="hidden" name="uid" value="${uid}"><br>
+                    <p style="text-align: center;">${uid} 사용자를 삭제하시겠습니까?</p><br>
+                    <p style="text-align: center;"><input class="btn btn-primary" type="submit" value="확인">&nbsp;&nbsp;&nbsp;
+                        <button class="btn btn-secondary" type="reset" type="button">취소</button></p>
+                </form>
                 </div>
-                <div class="col-1"></div>
+                <div class="col-6"></div>
             </div>
         </div>
     </div>
 </div>
-
     <!-- === From w3school.com (https://www.w3schools.com/bootstrap4/bootstrap_get_started.asp) === -->
     <script src="/fontawesome/all.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
