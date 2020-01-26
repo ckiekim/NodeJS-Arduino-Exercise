@@ -5,13 +5,13 @@ module.exports = {
                 <a href="/"><img src="greenlogo.png" class="d-inline-block align-top" alt=""></a>&nbsp;&nbsp;&nbsp;
                 <ul class="nav nav-pills mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Home</a>
+                        <a class="nav-link" href="/">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/user/login">로그인</a>
+                        <a class="nav-link" href="/user/login">로그아웃</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"> </a>
                     </li>
                 </ul>
                 <div class="navbar-text">

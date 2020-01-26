@@ -2,8 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
-const template = require('./view/template');
 const favicon = require('express-favicon');
+const template = require('./view/template');
+const alert = require('./view/alertMsg');
 const wm = require('./weather-module');
 
 const app = express();
@@ -25,12 +26,20 @@ app.use(session({
 app.use('/user', userRouter);
 
 app.get('/', function(req, res) {
-    let view = require('./view/main');
-    wm.getWeather(function(weather) {
-        let navBar = template.navBar(weather);
-        let html = view.main(navBar);
+    if (req.session.userName === undefined) {
+        let html = alert.alertMsg('먼저 로그인하세요.', '/user/login');
         res.send(html);
-    });
+    } else {
+        let view = require('./view/main');
+        wm.getWeather(function(weather) {
+            let navBar = template.navBar(weather, req.session.userName);
+            let html = view.main(navBar);
+            res.send(html);
+        });
+    }
+});
+app.get('/index', function(req, res) {
+    res.redirect('/user/login');
 });
 
 app.get('*', function(req, res) {

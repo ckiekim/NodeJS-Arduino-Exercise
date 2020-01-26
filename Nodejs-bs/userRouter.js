@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
 router.get('/register', function(req, res) {
     dbModule.getAllDepts(function(rows) {
         wm.getWeather(function(weather) {
-            let navBar = template.navBar(weather);        
+            let navBar = template.navBar(weather, req.session.userName);        
             let view = require('./view/registerUser');
             let html = view.registerUser(navBar, rows);
             res.send(html);
@@ -57,7 +57,7 @@ router.post('/register', function(req, res) {
 router.get('/list', function(req, res) {
     dbModule.getAllUsers(function(rows) {
         wm.getWeather(function(weather) {
-            let navBar = template.navBar(weather);        
+            let navBar = template.navBar(weather, req.session.userName);        
             let view = require('./view/listUser');
             let html = view.listUser(navBar, rows);
             res.send(html);
@@ -69,7 +69,7 @@ router.get('/update/uid/:uid', function(req, res) {
     dbModule.getAllDepts(function(rows) {
         dbModule.getUserInfo(uid, function(row) {
             wm.getWeather(function(weather) {
-                let navBar = template.navBar(weather);        
+                let navBar = template.navBar(weather, req.session.userName);        
                 let view = require('./view/updateUser');
                 let html = view.updateUser(navBar, rows, row);  // navBar, dept, user
                 res.send(html);
@@ -89,7 +89,7 @@ router.post('/update', function(req, res) {
 router.get('/delete/uid/:uid', function(req, res) {
     let uid = req.params.uid;
     wm.getWeather(function(weather) {
-        let navBar = template.navBar(weather);        
+        let navBar = template.navBar(weather, req.session.userName);        
         let view = require('./view/deleteUser');
         let html = view.deleteUser(navBar, uid); 
         res.send(html);
@@ -135,6 +135,6 @@ router.post('/login', function(req, res) {
 });
 router.get('/logout', function(req, res) {
     req.session.destroy();
-    res.redirect('/');    
+    res.redirect('/user/login');    
 });
 module.exports = router;
