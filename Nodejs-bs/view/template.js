@@ -1,5 +1,5 @@
 module.exports = {
-    navBar: function(weather) {
+    navBar: function(weather, userName) {
         return `
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <a href="/"><img src="greenlogo.png" class="d-inline-block align-top" alt=""></a>&nbsp;&nbsp;&nbsp;
@@ -16,7 +16,7 @@ module.exports = {
                 </ul>
                 <div class="navbar-text">
                     <p>${weather}</p>
-                    <p>홍길동님 환영합니다.</p>
+                    <p>${userName}님 환영합니다.</p>
                 </div>
             </nav>
         `;
