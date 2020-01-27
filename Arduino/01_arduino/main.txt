@@ -1,0 +1,90 @@
+#include <Arduino.h>
+#include "DHT.h"
+#include <ArduinoJson.h>
+
+#define LED_PIN		13
+#define RED_LED		3
+#define GREEN_LED	6
+#define	BLUE_LED	5
+#define	DHT_PIN		8
+#define ECHO_PIN	10
+#define TRIG_PIN	11
+
+#define CDS_PIN		A0
+
+/* class ArduinoInfo {
+	public:
+		char *dhtStatus;
+		float humidity;
+		float temperature;
+		int cds;
+		float distance;
+		int red;
+		int green;
+		int blue;
+};
+ArduinoInfo arduinoInfo; */
+//DynamicJsonDocument doc(2048);
+StaticJsonDocument<256> doc;
+char jsonOutput[512];
+DHT dht;
+float ultraSonic();
+
+void setup() {
+	Serial.begin(115200);
+
+	pinMode(LED_PIN, OUTPUT);
+	pinMode(TRIG_PIN, OUTPUT);
+	pinMode(ECHO_PIN, INPUT);
+	pinMode(CDS_PIN, INPUT);
+	pinMode(RED_LED, OUTPUT);
+	pinMode(GREEN_LED, OUTPUT);
+	pinMode(BLUE_LED, OUTPUT);
+	dht.setup(DHT_PIN);
+}
+
+void loop()
+{
+	digitalWrite(LED_PIN, digitalRead(LED_PIN)^1);
+
+	doc["dhtStatus"] = dht.getStatusString();
+	doc["humidity"] = dht.getHumidity();
+	doc["temperature"] = dht.getTemperature();
+	/* char dhtBuf[30], humidBuf[10], tempBuf[10];
+	dtostrf(dht.getHumidity(), 5, 1, humidBuf);
+	dtostrf(dht.getTemperature(), 5, 1, tempBuf);
+	sprintf(dhtBuf, "%s, %s, %s\t", dht.getStatusString(), humidBuf,  tempBuf);
+	Serial.print(dhtBuf); */
+
+	/* arduinoInfo.cds = analogRead(CDS_PIN);
+	arduinoInfo.distance = ultraSonic(); */
+
+	int red = random(256);
+	int green = random(256);
+	int blue = random(256);
+	analogWrite(RED_LED, red);
+	analogWrite(GREEN_LED, green);
+	analogWrite(BLUE_LED, blue);
+	char rgbBuf[20];
+	sprintf(rgbBuf, "\t%d, %d, %d", red, green, blue);
+	Serial.println(rgbBuf);
+	/* arduinoInfo.red = red;
+	arduinoInfo.green = green;
+	arduinoInfo.blue = blue; */
+
+	serializeJson(doc, jsonOutput);
+	Serial.println(jsonOutput);
+
+	delay(5000);
+}
+
+float ultraSonic() {
+	digitalWrite(TRIG_PIN, HIGH);
+	delayMicroseconds(10);
+	digitalWrite(TRIG_PIN, LOW);
+
+	unsigned long duration = pulseIn(ECHO_PIN, HIGH);
+	float distance = ((float)(340 * duration) / 10000) / 2;
+	//return (float)pulseIn(ECHO_PIN, HIGH) / 58;
+	return distance;
+}
