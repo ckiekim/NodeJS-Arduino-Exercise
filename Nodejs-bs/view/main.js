@@ -1,4 +1,4 @@
-module.exports.main = function(navBar) {
+module.exports.main = function(navBar, temp, humid, cds) {
     let up = `<i class="fas fa-arrow-up"></i>`;
     let down = `<i class="fas fa-arrow-down"></i>`;
     let ok = `<i class="far fa-thumbs-up"></i>`;
@@ -56,15 +56,15 @@ module.exports.main = function(navBar) {
                         <tbody>
                             <tr>
                                 <td><i class="fas fa-thermometer-half"></i>&nbsp;&nbsp;온도</td><td>18.0 ~ 19.0</td>
-                                <td>17.5</td><td>℃</td><td>${up}</td>
+                                <td>${temp}</td><td>℃</td><td>${up}</td>
                             </tr>
                             <tr>
                                 <td><i class="fas fa-tint"></i>&nbsp;&nbsp;습도</td><td>23.0 ~ 25.0</td>
-                                <td>25.5</td><td>%</td><td>${down}</td>
+                                <td>${humid}</td><td>%</td><td>${down}</td>
                             </tr>
                             <tr>
                                 <td><i class="far fa-lightbulb"></i>&nbsp;&nbsp;조도</td><td>60.0 ~ 80.0</td>
-                                <td>72.3</td><td>lux</td><td>${ok}</td>
+                                <td>${cds}</td><td>lux</td><td>${ok}</td>
                             </tr>
                         </tbody>
                     </table>

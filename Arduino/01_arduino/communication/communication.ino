@@ -4,13 +4,8 @@ void setup() {
   Serial.begin(115200);
   pinMode(13, OUTPUT);
   pinMode(6, OUTPUT);
-  delay(5000);
-  /*for (int i=0; i<10; i++) {
-    Serial.print("Loop ");
-    Serial.print(i);
-    Serial.print("\n");
-    delay(500);
-  }*/
+  delay(1000);
+  Serial.print("Ready\n");
 }
 
 void loop() {
@@ -18,29 +13,22 @@ void loop() {
   digitalWrite(13, HIGH);
   
   if (Serial.available() > 0) {
-    char buf[80];
-    String str;
-    byte len = 0;
-  
-    //Serial.println("AVAILABLE");
     analogWrite(6, 255);
-    len = Serial.readBytes(buf, 80);
-    buf[len-1] = 0;
+    char cmd = Serial.read();
 
-    str = (String)buf;
-    Serial.println(str);
-    if (str.indexOf("GET") == 0) {
-      delay(1000);
-      Serial.print(json);
-      Serial.print("\n");
-    } else {
-      for (int i=0; i<20; i++) {
-        digitalWrite(13, digitalRead(13)^1);
-        delay(200);
-      }
+    switch(cmd) {
+      case 'G':
+        Serial.print(json);
+        Serial.print("\n");
+        break;
+      case 'A':
+        Serial.print("OK\n");
+        break;
+      default:
+        Serial.print("BAD\n");
     }
+    delay(2000);
     analogWrite(6, 0);
-    //digitalWrite(13, LOW);
-    //Serial.end();
   }
+  delay(1000);
 }

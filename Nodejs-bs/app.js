@@ -6,6 +6,7 @@ const favicon = require('express-favicon');
 const template = require('./view/template');
 const alert = require('./view/alertMsg');
 const wm = require('./weather-module');
+const sm = require('./serial-module');
 
 const app = express();
 const userRouter = require('./userRouter');
@@ -33,8 +34,10 @@ app.get('/', function(req, res) {
         let view = require('./view/main');
         wm.getWeather(function(weather) {
             let navBar = template.navBar(weather, req.session.userName);
-            let html = view.main(navBar);
-            res.send(html);
+            sm.remoteInfo('GET', function(result) {
+                let html = view.main(navBar, result.temperature, result.humidity, result.cds);
+                res.send(html);
+            })
         });
     }
 });
