@@ -1,7 +1,4 @@
-module.exports.main = function(navBar) {
-    let up = `<i class="fas fa-arrow-up"></i>`;
-    let down = `<i class="fas fa-arrow-down"></i>`;
-    let ok = `<i class="far fa-thumbs-up"></i>`;
+module.exports.actuator = function(navBar) {
 	return `
 <html>
 <head>
@@ -19,10 +16,10 @@ module.exports.main = function(navBar) {
         <div class="col-2">
             <ul class="nav nav-pills flex-column">
                 <li class="nav-item">
-                    <a class="nav-link" href="/sensor">센서</a>
+                    <a class="nav-link" href="/">센서</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/actuator">액츄에이터</a>
+                    <a class="nav-link active" href="#">액츄에이터</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -42,32 +39,25 @@ module.exports.main = function(navBar) {
         </div>
         <div class="col-10">
             <div class="row" style="margin-left: 10px">
-                <div class="col-12"><h3>스마트팜 상태</h3></div>
+                <div class="col-12"><h3>액츄에이터</h3></div>
                 <div class="col-12"><hr></div>
                 <div class="col-11">
-                    <table class="table table-condensed table-hover">
-                        <thead class="thead-light">
-                            <tr class="active">
-                                <th scope="col">항목</th><th scope="col">기준</th>
-                                <th scope="col">값</th><th scope="col">단위</th>
-                                <th scope="col"><a href="#"><i class="fas fa-arrow-alt-circle-down"></i></a></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><i class="fas fa-thermometer-half"></i>&nbsp;&nbsp;온도</td><td>18.0 ~ 19.0</td>
-                                <td>20.3</td><td>℃</td><td>${up}</td>
-                            </tr>
-                            <tr>
-                                <td><i class="fas fa-tint"></i>&nbsp;&nbsp;습도</td><td>23.0 ~ 25.0</td>
-                                <td>22.7</td><td>%</td><td>${down}</td>
-                            </tr>
-                            <tr>
-                                <td><i class="far fa-lightbulb"></i>&nbsp;&nbsp;조도</td><td>60.0 ~ 80.0</td>
-                                <td>70.0</td><td>lux</td><td>${ok}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="progress" style="height: 30px;">
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="255 aria-valuemin="0" aria-valuemax="255">Red: 255</div>
+                    </div><br>
+                    <div class="progress" style="height: 30px;">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="64" aria-valuemin="0" aria-valuemax="255">Green: 64</div>
+                    </div><br>
+                    <div class="progress" style="height: 30px;">
+                        <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="128" aria-valuemin="0" aria-valuemax="255">Blue: 128</div>
+                    </div><br>
+                    <br><br>
+                    <form>
+                        <div class="form-group">
+                            <label for="formControlRange">Red</label>
+                            <input type="range" class="form-control-range" id="formControlRange">
+                        </div>
+                    </form>
                 </div>
                 <div class="col-1"></div>
             </div>

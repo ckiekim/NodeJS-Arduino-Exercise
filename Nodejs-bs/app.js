@@ -34,15 +34,41 @@ app.get('/', function(req, res) {
         let view = require('./view/main');
         wm.getWeather(function(weather) {
             let navBar = template.navBar(weather, req.session.userName);
-            sm.remoteInfo('GET', function(result) {
-                let html = view.main(navBar, result.temperature, result.humidity, result.cds);
-                res.send(html);
-            })
+            let html = view.main(navBar);
+            res.send(html);
         });
     }
 });
 app.get('/index', function(req, res) {
     res.redirect('/user/login');
+});
+app.get('/sensor', function(req, res) {
+    if (req.session.userName === undefined) {
+        let html = alert.alertMsg('먼저 로그인하세요.', '/user/login');
+        res.send(html);
+    } else {
+        let view = require('./view/sensor');
+        wm.getWeather(function(weather) {
+            let navBar = template.navBar(weather, req.session.userName);
+            sm.remoteInfo('GET', function(result) {
+                let html = view.sensor(navBar, result.temperature, result.humidity, result.cds);
+                res.send(html);
+            });
+        });
+    }
+});
+app.get('/actuator', function(req, res) {
+    if (req.session.userName === undefined) {
+        let html = alert.alertMsg('먼저 로그인하세요.', '/user/login');
+        res.send(html);
+    } else {
+        let view = require('./view/actuator');
+        wm.getWeather(function(weather) {
+            let navBar = template.navBar(weather, req.session.userName);
+            let html = view.actuator(navBar);
+            res.send(html);
+        });
+    }
 });
 
 app.get('*', function(req, res) {

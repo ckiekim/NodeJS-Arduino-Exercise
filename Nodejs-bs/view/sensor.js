@@ -1,4 +1,4 @@
-module.exports.main = function(navBar) {
+module.exports.sensor = function(navBar, temp, humid, cds) {
     let up = `<i class="fas fa-arrow-up"></i>`;
     let down = `<i class="fas fa-arrow-down"></i>`;
     let ok = `<i class="far fa-thumbs-up"></i>`;
@@ -19,7 +19,7 @@ module.exports.main = function(navBar) {
         <div class="col-2">
             <ul class="nav nav-pills flex-column">
                 <li class="nav-item">
-                    <a class="nav-link" href="/sensor">센서</a>
+                    <a class="nav-link active" href="#">센서</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/actuator">액츄에이터</a>
@@ -42,7 +42,7 @@ module.exports.main = function(navBar) {
         </div>
         <div class="col-10">
             <div class="row" style="margin-left: 10px">
-                <div class="col-12"><h3>스마트팜 상태</h3></div>
+                <div class="col-12"><h3>센서</h3></div>
                 <div class="col-12"><hr></div>
                 <div class="col-11">
                     <table class="table table-condensed table-hover">
@@ -56,15 +56,15 @@ module.exports.main = function(navBar) {
                         <tbody>
                             <tr>
                                 <td><i class="fas fa-thermometer-half"></i>&nbsp;&nbsp;온도</td><td>18.0 ~ 19.0</td>
-                                <td>20.3</td><td>℃</td><td>${up}</td>
+                                <td>${temp}</td><td>℃</td><td>${up}</td>
                             </tr>
                             <tr>
                                 <td><i class="fas fa-tint"></i>&nbsp;&nbsp;습도</td><td>23.0 ~ 25.0</td>
-                                <td>22.7</td><td>%</td><td>${down}</td>
+                                <td>${humid}</td><td>%</td><td>${down}</td>
                             </tr>
                             <tr>
                                 <td><i class="far fa-lightbulb"></i>&nbsp;&nbsp;조도</td><td>60.0 ~ 80.0</td>
-                                <td>70.0</td><td>lux</td><td>${ok}</td>
+                                <td>${cds}</td><td>lux</td><td>${ok}</td>
                             </tr>
                         </tbody>
                     </table>
