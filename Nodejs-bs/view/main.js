@@ -31,12 +31,10 @@ module.exports.main = function(navBar) {
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="/user/register">생성(C)</a>
                         <a class="dropdown-item" href="/user/list">조회(R)</a>
-                        <a class="dropdown-item" href="#">수정(U)</a>
-                        <a class="dropdown-item" href="#">삭제(D)</a>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a>
                 </li>
             </ul>
         </div>

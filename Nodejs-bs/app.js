@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
 const favicon = require('express-favicon');
+const dbModule = require('./db-module');
 const template = require('./view/template');
 const alert = require('./view/alertMsg');
 const wm = require('./weather-module');
@@ -65,10 +66,34 @@ app.get('/actuator', function(req, res) {
         let view = require('./view/actuator');
         wm.getWeather(function(weather) {
             let navBar = template.navBar(weather, req.session.userName);
-            let html = view.actuator(navBar);
-            res.send(html);
+            dbModule.getCurrentActuator(function(result) {
+                let html = view.actuator(navBar, result.redLED, result.greenLED, result.blueLED, result.relay);
+                res.send(html);
+            });
         });
     }
+});
+app.post('/actuator', function(req, res) {
+    let redLED = parseInt(req.body.redRange);
+    let greenLED = parseInt(req.body.greenRange);
+    let blueLED = parseInt(req.body.blueRange);
+    let relay = parseInt(req.body.relay);
+    let reason = req.body.reason;
+    let uid = req.session.userId;
+    //console.log(redLED, greenLED, blueLED, relay, reason);
+
+    let actuator = new Object();
+    actuator.red = redLED;
+    actuator.green = greenLED;
+    actuator.blue = blueLED;
+    actuator.relay = relay;
+    let jsonData = JSON.stringify(actuator);
+    console.log('actuator: ', jsonData);
+    dbModule.changeActuator(redLED, greenLED, blueLED, relay, reason, uid, function() {
+        sm.remoteAct('PUT', jsonData, function() {
+            res.redirect('/actuator');
+        });
+    });
 });
 
 app.get('*', function(req, res) {

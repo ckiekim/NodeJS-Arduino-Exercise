@@ -27,8 +27,20 @@ var createUserSql = `
         tel text,
         regDate datetime default CURRENT_TIMESTAMP)
 `;
-var insertSql = "INSERT INTO dept VALUES(?, ?)";
-var selectSql = "SELECT * FROM dept";
+var createActuatorSql = `
+    CREATE TABLE actuator (
+        aid integer primary key autoincrement,
+        redLED integer default 200,
+        greenLED integer default 128,
+        blueLED integer default 80,
+        relay integer default 0,
+        actionTime datetime default CURRENT_TIMESTAMP,
+        reason text,
+        uid text)
+`;
+var insertUserSql = "INSERT INTO dept VALUES(?, ?)";
+var selectDeptSql = "SELECT * FROM dept";
+var insertActuatorSql = "INSERT INTO actuator(reason, uid) VALUES('Initial value', 'admin')";
 var records = [
     {did: 101, name: '경영지원팀'},
     {did: 102, name: '영업팀'},
@@ -39,14 +51,16 @@ var records = [
 db.serialize(function() {
     db.run(createDeptSql);
     db.run(createUserSql);
+    db.run(createActuatorSql);
 
-    var stmt = db.prepare(insertSql);
+    db.run(insertActuatorSql);
+    var stmt = db.prepare(insertUserSql);
     for (let record of records) {
         stmt.run(record.did, record.name);
     }
     stmt.finalize();
 
-    db.each(selectSql, function(err, row) {
+    db.each(selectDeptSql, function(err, row) {
         console.log(row);
     });
 });

@@ -23,10 +23,10 @@ module.exports.updateUser = function(navBar, deptObj, user) {
         <div class="col-2">
             <ul class="nav nav-pills flex-column">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">센서</a>
+                    <a class="nav-link" href="/sensor">센서</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">액츄에이터</a>
+                    <a class="nav-link" href="/actuator">액츄에이터</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -35,12 +35,10 @@ module.exports.updateUser = function(navBar, deptObj, user) {
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="/user/register">생성(C)</a>
                         <a class="dropdown-item" href="/user/list">조회(R)</a>
-                        <a class="dropdown-item" href="#">수정(U)</a>
-                        <a class="dropdown-item" href="#">삭제(D)</a>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a>
                 </li>
             </ul>
         </div>

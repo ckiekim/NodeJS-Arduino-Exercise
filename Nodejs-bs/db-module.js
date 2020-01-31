@@ -80,6 +80,32 @@ module.exports = {
         });
         stmt.finalize();
         db.close();
+    },
+    getCurrentActuator: function(callback) {
+        let db = new sqlite3.Database("db/smartfarm.db");
+        let sql = `SELECT aid, redLED, greenLED, blueLED, relay, datetime(actionTime, 'localtime') ts, reason, uid FROM actuator ORDER BY aid DESC LIMIT 1`;
+        db.each(sql, function(err, result) {
+            if (err) {
+                console.error('getCurrentActuator DB 에러', err);
+                return;          
+            }
+            callback(result);
+        });
+        db.close();
+    },
+    changeActuator: function(redLED, greenLED, blueLED, relay, reason, uid, callback) {
+        let db = new sqlite3.Database("db/smartfarm.db");
+        let sql = `INSERT INTO actuator(redLED, greenLED, blueLED, relay, reason, uid) VALUES(?, ?, ?, ?, ?, ?)`;
+        let stmt = db.prepare(sql);
+        stmt.run(redLED, greenLED, blueLED, relay, reason, uid, function(err) {
+            if (err) {
+                console.error('changeActuator DB 에러', err);
+                return;          
+            }
+            callback();
+        });
+        stmt.finalize();
+        db.close();
     }
- 
+
 }

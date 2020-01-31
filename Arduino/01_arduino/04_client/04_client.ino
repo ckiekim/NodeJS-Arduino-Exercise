@@ -6,6 +6,7 @@
 #define RED_LED   3
 #define GREEN_LED 6
 #define BLUE_LED  5
+#define RELAY_PIN 4
 #define DHT_PIN   8
 #define ECHO_PIN  10
 #define TRIG_PIN  11
@@ -19,6 +20,10 @@ int doParseJson(char *);
 void readSensors();
 float ultraSonic();
 void blinkLED(int);
+int red=200;
+int green=128;
+int blue=80;
+int relay=0;
 
 void setup() {
   Serial.begin(115200);
@@ -31,6 +36,7 @@ void setup() {
   pinMode(RED_LED, OUTPUT);
   pinMode(GREEN_LED, OUTPUT);
   pinMode(BLUE_LED, OUTPUT);
+  pinMode(RELAY_PIN, OUTPUT);
   dht.begin();
   delay(1000);
 }
@@ -58,11 +64,16 @@ void loop() {
         Serial.print("BAD\n");
     } else if (str.indexOf("ACK") == 0) {
       Serial.print("OK\n");
+      analogWrite(RED_LED, red);
+      analogWrite(GREEN_LED, green);
+      analogWrite(BLUE_LED, blue);
+      digitalWrite(RELAY_PIN, relay);
       blinkLED(500);
     } else if (str.indexOf("OFF") == 0) {
       analogWrite(RED_LED, 0);
       analogWrite(GREEN_LED, 0);
       analogWrite(BLUE_LED, 0);
+      digitalWrite(RELAY_PIN, 0);
       Serial.print("OK\n");
     } else {
       blinkLED(200);
@@ -103,12 +114,14 @@ int doParseJson(char *jsonStr) {
   }
 
   // Fetch values and update actuator
-  int red = pDoc["red"];
-  int green = pDoc["green"];
-  int blue = pDoc["blue"];
+  red = pDoc["red"];
+  green = pDoc["green"];
+  blue = pDoc["blue"];
+  relay = pDoc["relay"];
   analogWrite(RED_LED, red);
   analogWrite(GREEN_LED, green);
   analogWrite(BLUE_LED, blue);
+  digitalWrite(RELAY_PIN, relay);
   return 0;
 }
 
