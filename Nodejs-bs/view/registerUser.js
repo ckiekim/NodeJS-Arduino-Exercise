@@ -30,7 +30,7 @@ module.exports.registerUser = function(navBar, deptObj) {
                         사용자
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/user/register">생성(C)</a>
+                        <a class="dropdown-item" href="#">등록(C)</a>
                         <a class="dropdown-item" href="/user/list">조회(R)</a>
                     </div>
                 </li>
@@ -41,7 +41,7 @@ module.exports.registerUser = function(navBar, deptObj) {
         </div>
         <div class="col-10">
             <div class="row" style="margin-left: 10px">
-                <div class="col-12"><h3>사용자 생성</h3></div>
+                <div class="col-12"><h3>사용자 등록</h3></div>
                 <div class="col-12"><hr></div>
                 <div class="col-6">
                 <form action="/user/register" class="form-horizontal" method="POST">

@@ -35,8 +35,19 @@ app.get('/', function(req, res) {
         let view = require('./view/main');
         wm.getWeather(function(weather) {
             let navBar = template.navBar(weather, req.session.userName);
-            let html = view.main(navBar);
-            res.send(html);
+            let temp, humid, cds, sTime, sUid;
+            dbModule.getCurrentSensor(function(srow) {
+                temp = srow.temperature;
+                humid = srow.humidity;
+                cds = srow.cds;
+                dist = srow.distance;
+                sTime = srow.ts;
+                sUid = srow.uid;
+                dbModule.getCurrentActuator(function(arow) {
+                    let html = view.main(navBar, temp, humid, cds, dist, sTime, sUid, arow.redLED, arow.greenLED, arow.blueLED, arow.relay, arow.ts, arow.uid);
+                    res.send(html);
+                });
+            });
         });
     }
 });
@@ -52,8 +63,15 @@ app.get('/sensor', function(req, res) {
         wm.getWeather(function(weather) {
             let navBar = template.navBar(weather, req.session.userName);
             sm.remoteInfo('GET', function(result) {
-                let html = view.sensor(navBar, result.temperature, result.humidity, result.cds);
-                res.send(html);
+                let temperature = result.temperature;
+                let humidity = result.humidity;
+                let cds = result.cds;
+                let distance = result.distance.toFixed(1);
+                let uid = req.session.userId;
+                dbModule.insertSensor(temperature, humidity, cds, distance, uid, function() {
+                    let html = view.sensor(navBar, temperature, humidity, cds, distance);
+                    res.send(html);
+                });
             });
         });
     }

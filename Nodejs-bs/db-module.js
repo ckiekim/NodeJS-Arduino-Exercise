@@ -81,6 +81,20 @@ module.exports = {
         stmt.finalize();
         db.close();
     },
+    changePassword: function(uid, password, callback) {
+        let db = new sqlite3.Database("db/smartfarm.db");
+        let sql = `UPDATE user SET password=? WHERE uid=?`;
+        let stmt = db.prepare(sql);
+        stmt.run(password, uid, function(err) {
+            if (err) {
+                console.error('changePassword DB 에러', err);
+                return;          
+            }
+            callback();
+        });
+        stmt.finalize();
+        db.close();
+    },
     getCurrentActuator: function(callback) {
         let db = new sqlite3.Database("db/smartfarm.db");
         let sql = `SELECT aid, redLED, greenLED, blueLED, relay, datetime(actionTime, 'localtime') ts, reason, uid FROM actuator ORDER BY aid DESC LIMIT 1`;
@@ -100,6 +114,32 @@ module.exports = {
         stmt.run(redLED, greenLED, blueLED, relay, reason, uid, function(err) {
             if (err) {
                 console.error('changeActuator DB 에러', err);
+                return;          
+            }
+            callback();
+        });
+        stmt.finalize();
+        db.close();
+    },
+    getCurrentSensor: function(callback) {
+        let db = new sqlite3.Database("db/smartfarm.db");
+        let sql = `SELECT sid, temperature, humidity, cds, distance, datetime(sensingTime, 'localtime') ts, uid FROM sensor ORDER BY sid DESC LIMIT 1`;
+        db.each(sql, function(err, result) {
+            if (err) {
+                console.error('getCurrentSensor DB 에러', err);
+                return;          
+            }
+            callback(result);
+        });
+        db.close();
+    },
+    insertSensor: function(temperature, humidity, cds, distance, uid, callback) {
+        let db = new sqlite3.Database("db/smartfarm.db");
+        let sql = `INSERT INTO sensor(temperature, humidity, cds, distance, uid) VALUES(?, ?, ?, ?, ?)`;
+        let stmt = db.prepare(sql);
+        stmt.run(temperature, humidity, cds, distance, uid, function(err) {
+            if (err) {
+                console.error('insertSensor DB 에러', err);
                 return;          
             }
             callback();

@@ -15,32 +15,43 @@ var db = new sqlite3.Database("db/smartfarm.db");
 
 var createDeptSql = `
     CREATE TABLE IF NOT EXISTS dept (
-        did INTEGER PRIMARY,
+        did INTEGER PRIMARY KEY,
         name TEXT NOT NULL)
 `;
 var createUserSql = `
-    create table user (
-        uid text PRIMARY KEY,
-        password text not null,
-        name text not null,
-        deptId int not null,
-        tel text,
-        regDate datetime default CURRENT_TIMESTAMP)
+    CREATE TABLE user (
+        uid TEXT PRIMARY KEY,
+        password TEXT NOT NULL,
+        name TEXT NOT NULL,
+        deptId INTEGER NOT NULL,
+        tel TEXT,
+        regDate DATETIME DEFAULT CURRENT_TIMESTAMP)
 `;
 var createActuatorSql = `
     CREATE TABLE actuator (
-        aid integer primary key autoincrement,
-        redLED integer default 200,
-        greenLED integer default 128,
-        blueLED integer default 80,
-        relay integer default 0,
-        actionTime datetime default CURRENT_TIMESTAMP,
-        reason text,
-        uid text)
+        aid INTEGER PRIMARY KEY AUTOINCREMENT,
+        redLED INTEGER DEFAULT 200,
+        greenLED INTEGER DEFAULT 128,
+        blueLED INTEGER DEFAULT 80,
+        relay INTEGER DEFAULT 0,
+        actionTime DATETIME DEFAULT CURRENT_TIMESTAMP,
+        reason TEXT,
+        uid TEXT)
+`;
+var createSensorSql = `
+    CREATE TABLE sensor (
+        sid INTEGER PRIMARY KEY AUTOINCREMENT,
+        temperature INTEGER DEFAULT 20,
+        humidity INTEGER DEFAULT 25,
+        cds INTEGER DEFAULT 50,
+        distance REAL DEFAULT 10.0,
+        sensingTime DATETIME DEFAULT CURRENT_TIMESTAMP,
+        uid TEXT);
 `;
 var insertUserSql = "INSERT INTO dept VALUES(?, ?)";
 var selectDeptSql = "SELECT * FROM dept";
 var insertActuatorSql = "INSERT INTO actuator(reason, uid) VALUES('Initial value', 'admin')";
+var insertSensorSql = "INSERT INTO sensor(uid) VALUES('admin')";
 var records = [
     {did: 101, name: '경영지원팀'},
     {did: 102, name: '영업팀'},
@@ -52,8 +63,10 @@ db.serialize(function() {
     db.run(createDeptSql);
     db.run(createUserSql);
     db.run(createActuatorSql);
+    db.run(createSensorSql);
 
     db.run(insertActuatorSql);
+    db.run(insertSensorSql);
     var stmt = db.prepare(insertUserSql);
     for (let record of records) {
         stmt.run(record.did, record.name);

@@ -1,7 +1,30 @@
-module.exports.sensor = function(navBar, temp, humid, cds) {
+const TEMP_LOW = 18.0;
+const TEMP_HIGH = 22.0;
+const HUMID_LOW = 20.0;
+const HUMID_HIGH = 30.0;
+const CDS_LOW = 40.0;
+const CDS_HIGH = 80.0;
+const DIST_LOW = 10.0;
+const DIST_HIGH = 30.0
+
+module.exports.sensor = function(navBar, temp, humid, cds, dist) {
     let up = `<i class="fas fa-arrow-up"></i>`;
     let down = `<i class="fas fa-arrow-down"></i>`;
     let ok = `<i class="far fa-thumbs-up"></i>`;
+    let tempSign, humidSign, cdsSign, distSign;
+    if (temp < TEMP_LOW) tempSign = down;
+    else if (temp > TEMP_HIGH) tempSign = up;
+    else tempSign = ok;
+    if (humid < HUMID_LOW) humidSign = down;
+    else if (humid > HUMID_HIGH) humidSign = up;
+    else humidSign = ok;
+    if (cds < CDS_LOW) cdsSign = down;
+    else if (cds > CDS_HIGH) cdsSign = up;
+    else cdsSign = ok;
+    if (dist < DIST_LOW) distSign = down;
+    else if (dist > DIST_HIGH) distSign = up;
+    else distSign = ok;
+
 	return `
 <html>
 <head>
@@ -29,7 +52,7 @@ module.exports.sensor = function(navBar, temp, humid, cds) {
                         사용자
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/user/register">생성(C)</a>
+                        <a class="dropdown-item" href="/user/register">등록(C)</a>
                         <a class="dropdown-item" href="/user/list">조회(R)</a>
                     </div>
                 </li>
@@ -47,22 +70,30 @@ module.exports.sensor = function(navBar, temp, humid, cds) {
                         <thead class="thead-light">
                             <tr class="active">
                                 <th scope="col">항목</th><th scope="col">기준</th>
-                                <th scope="col">값</th><th scope="col">단위</th>
+                                <th scope="col">현재값</th><th scope="col">단위</th>
                                 <th scope="col"><a href="#"><i class="fas fa-arrow-alt-circle-down"></i></a></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td><i class="fas fa-thermometer-half"></i>&nbsp;&nbsp;온도</td><td>18.0 ~ 19.0</td>
-                                <td>${temp}</td><td>℃</td><td>${up}</td>
+                                <td><i class="fas fa-thermometer-half"></i>&nbsp;&nbsp;온도</td>
+                                <td>${TEMP_LOW} ~ ${TEMP_HIGH}</td>
+                                <td>${temp}</td><td>℃</td><td>${tempSign}</td>
                             </tr>
                             <tr>
-                                <td><i class="fas fa-tint"></i>&nbsp;&nbsp;습도</td><td>23.0 ~ 25.0</td>
-                                <td>${humid}</td><td>%</td><td>${down}</td>
+                                <td><i class="fas fa-tint"></i>&nbsp;&nbsp;습도</td>
+                                <td>${HUMID_LOW} ~ ${HUMID_HIGH}</td>
+                                <td>${humid}</td><td>%</td><td>${humidSign}</td>
                             </tr>
                             <tr>
-                                <td><i class="far fa-lightbulb"></i>&nbsp;&nbsp;조도</td><td>60.0 ~ 80.0</td>
-                                <td>${cds}</td><td>lux</td><td>${ok}</td>
+                                <td><i class="far fa-lightbulb"></i>&nbsp;&nbsp;조도</td>
+                                <td>${CDS_LOW} ~ ${CDS_HIGH}</td>
+                                <td>${cds}</td><td>lux</td><td>${cdsSign}</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-ruler-vertical"></i>&nbsp;&nbsp;거리</td>
+                                <td>${DIST_LOW} ~ ${DIST_HIGH}</td>
+                                <td>${dist}</td><td>cm</td><td>${distSign}</td>
                             </tr>
                         </tbody>
                     </table>

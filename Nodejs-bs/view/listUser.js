@@ -10,6 +10,7 @@ module.exports.listUser = function(navBar, rows) {
                 </td>
             </tr>`;
     }
+    
 	return `
 <html>
 <head>
@@ -42,8 +43,8 @@ module.exports.listUser = function(navBar, rows) {
                         사용자
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/user/register">생성(C)</a>
-                        <a class="dropdown-item" href="/user/list">조회(R)</a>
+                        <a class="dropdown-item" href="/user/register">등록(C)</a>
+                        <a class="dropdown-item" href="#">조회(R)</a>
                     </div>
                 </li>
                 <li class="nav-item">

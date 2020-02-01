@@ -1,11 +1,4 @@
-module.exports.updateUser = function(navBar, deptObj, user) {
-    let options = '';
-    for (dept of deptObj) {
-        if (dept.did == user.deptId) 
-            options += `<option value="${dept.did}" selected>${dept.name}</option>`;
-        else
-            options += `<option value="${dept.did}">${dept.name}</option>`;
-    }
+module.exports.changePassword = function(navBar, uid) {
 	return `
 <html>
 <head>
@@ -44,36 +37,28 @@ module.exports.updateUser = function(navBar, deptObj, user) {
         </div>
         <div class="col-10">
             <div class="row" style="margin-left: 10px">
-                <div class="col-12"><h3>사용자 수정</h3></div>
+                <div class="col-12"><h3>패스워드 변경</h3></div>
                 <div class="col-12"><hr></div>
                 <div class="col-6">
-                <form action="/user/update" class="form-horizontal" method="POST">
-                    <input type="hidden" name="uid" value="${user.uid}">
+                <form action="/user/password" class="form-horizontal" method="POST">
+                    <input type="hidden" name="uid" value="${uid}">
                     <table class="table table-borderless">
                     <tr>
                         <td style="text-align: center;">아이디</td>
-                        <td>${user.uid}</div></td>
+                        <td>${uid}</div></td>
                     </tr>
                     <tr>
-                        <td style="text-align: center;">이름</td>
-						<td>
-							<input type="text" class="form-control" name="name" id="name" value="${user.name}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: center;">부서명</td>
+                        <td style="text-align: center;">패스워드</td>
                         <td>
-                            <select class="form-control" id="deptId" name="deptId" value="${user.deptId}">
-                                ${options}
-                            </select>
+                            <input type="password" class="form-control" name="password" id="password">
                         </td>
                     </tr>
                     <tr>
-						<td style="text-align: center;">전화번호</td>
-						<td>
-							<input type="text" class="form-control" name="tel" id="tel" value="${user.tel}">
-						</td>
-					</tr>
+                        <td style="text-align: center;">패스워드 확인</td>
+                        <td>
+                            <input type="password" class="form-control" name="password2" id="password2">
+                        </td>
+                    </tr>
 					<tr>
                         <td colspan="2" style="text-align: center;">
                             <input class="btn btn-primary" type="submit" value="확인">&nbsp;&nbsp;&nbsp;

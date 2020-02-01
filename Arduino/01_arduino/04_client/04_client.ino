@@ -1,4 +1,5 @@
 #include "DHT.h"
+#include <EEPROM.h>
 #include <ArduinoJson.h>
 
 #define SW_PIN    2
@@ -10,8 +11,12 @@
 #define DHT_PIN   8
 #define ECHO_PIN  10
 #define TRIG_PIN  11
-
 #define CDS_PIN   A0
+
+#define RED_ADDR  0x100
+#define GREEN_ADDR  0x101
+#define BLUE_ADDR  0x102
+#define RELAY_ADDR  0x103
 
 StaticJsonDocument<256> doc;
 StaticJsonDocument<80> pDoc;
@@ -20,6 +25,7 @@ int doParseJson(char *);
 void readSensors();
 float ultraSonic();
 void blinkLED(int);
+
 int red=200;
 int green=128;
 int blue=80;
@@ -64,6 +70,10 @@ void loop() {
         Serial.print("BAD\n");
     } else if (str.indexOf("ACK") == 0) {
       Serial.print("OK\n");
+      red = EEPROM.read(RED_ADDR);
+      green = EEPROM.read(GREEN_ADDR);
+      blue = EEPROM.read(BLUE_ADDR);
+      relay = EEPROM.read(RELAY_ADDR);
       analogWrite(RED_LED, red);
       analogWrite(GREEN_LED, green);
       analogWrite(BLUE_LED, blue);
@@ -122,6 +132,13 @@ int doParseJson(char *jsonStr) {
   analogWrite(GREEN_LED, green);
   analogWrite(BLUE_LED, blue);
   digitalWrite(RELAY_PIN, relay);
+
+  //Writing data into EEPROM
+  EEPROM.write(RED_ADDR, red);
+  EEPROM.write(GREEN_ADDR, green);
+  EEPROM.write(BLUE_ADDR, blue);
+  EEPROM.write(RELAY_ADDR, relay);
+
   return 0;
 }
 

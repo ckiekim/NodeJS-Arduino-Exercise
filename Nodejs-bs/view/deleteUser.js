@@ -26,7 +26,7 @@ module.exports.deleteUser = function(navBar, uid) {
                         사용자
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/user/register">생성(C)</a>
+                        <a class="dropdown-item" href="/user/register">등록(C)</a>
                         <a class="dropdown-item" href="/user/list">조회(R)</a>
                     </div>
                 </li>

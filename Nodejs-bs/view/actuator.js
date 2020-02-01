@@ -33,7 +33,7 @@ module.exports.actuator = function(navBar, curR, curG, curB, relay) {
                         사용자
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/user/register">생성(C)</a>
+                        <a class="dropdown-item" href="/user/register">등록(C)</a>
                         <a class="dropdown-item" href="/user/list">조회(R)</a>
                     </div>
                 </li>
@@ -51,21 +51,21 @@ module.exports.actuator = function(navBar, curR, curG, curB, relay) {
                     <table class="table">
                         <tr><td rowspan="2" style="text-align: center;">Red LED</td><td>
                             <div class="progress" style="height: 30px;">
-                                <div class="progress-bar bg-danger" role="progressbar" style="width: ${curR/255*100}%" aria-valuenow="200" aria-valuemin="0" aria-valuemax="255">${curR}</div>
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: ${curR/255*100}%" aria-valuemin="0" aria-valuemax="255">${curR}</div>
                             </div></td></tr>
                         <tr><td>
                             <input type="range" class="form-control-range" name="redRange" min="0" max="255" step="1" value="${curR}">
                             </td></tr>
                         <tr><td rowspan="2" style="text-align: center;">Green LED</td><td>
                             <div class="progress" style="height: 30px;">
-                                <div class="progress-bar bg-success" role="progressbar" style="width: ${curG/255*100}%" aria-valuenow="200" aria-valuemin="0" aria-valuemax="255">${curG}</div>
+                                <div class="progress-bar bg-success" role="progressbar" style="width: ${curG/255*100}%" aria-valuemin="0" aria-valuemax="255">${curG}</div>
                             </div></td></tr>
                         <tr><td>
                             <input type="range" class="form-control-range" name="greenRange" min="0" max="255" step="1" value="${curG}">
                             </td></tr>
                         <tr><td rowspan="2" style="text-align: center;">Blue LED</td><td>
                             <div class="progress" style="height: 30px;">
-                                <div class="progress-bar bg-primary" role="progressbar" style="width: ${curB/255*100}%" aria-valuenow="200" aria-valuemin="0" aria-valuemax="255">${curB}</div>
+                                <div class="progress-bar bg-primary" role="progressbar" style="width: ${curB/255*100}%" aria-valuemin="0" aria-valuemax="255">${curB}</div>
                             </div></td></tr>
                         <tr><td>
                             <input type="range" class="form-control-range" name="blueRange" min="0" max="255" step="1" value="${curB}">
@@ -81,7 +81,7 @@ module.exports.actuator = function(navBar, curR, curG, curB, relay) {
                                     <option value="Temporary">임시적</option>
                                 </select>
                             </td></tr>
-                        <tr><td colspan="2" style="text-align: center;"><button type="submit" class="btn btn-primary">수정</button></td></tr>
+                        <tr><td colspan="2" style="text-align: center;"><button type="submit" class="btn btn-primary">작동</button></td></tr>
                     </table>
                     </form>
                 </div>

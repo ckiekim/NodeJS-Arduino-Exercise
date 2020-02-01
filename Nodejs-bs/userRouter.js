@@ -101,6 +101,40 @@ router.post('/delete', function(req, res) {
         res.redirect('/user/list');
     });
 });
+router.get('/password/uid/:uid', function(req, res) {
+    let uid = req.params.uid;
+    wm.getWeather(function(weather) {
+        let navBar = template.navBar(weather, req.session.userName);        
+        let view = require('./view/changePassword');
+        let html = view.changePassword(navBar, uid); 
+        res.send(html);
+    });
+});
+router.post('/password', function(req, res) {
+    let uid = req.body.uid;
+    let password = req.body.password;
+    let password2 = req.body.password2;
+
+    dbModule.getUserInfo(uid, function(row) {
+        if (password.length < 4) {
+            let html = alert.alertMsg('비밀번호를 4글자 이상 입력하세요.', `/user/password/uid/${uid}`);
+            res.send(html);
+        } else if (password != password2) {
+            console.log('비밀번호가 다릅니다.');
+            let html = alert.alertMsg('비밀번호가 다릅니다.', `/user/password/uid/${uid}`);
+            res.send(html);               
+        } else {
+            bcrypt.genSalt(10, function(err, salt) {
+                bcrypt.hash(password, salt, null, function(err, hash) {
+                    dbModule.changePassword(uid, hash, function() {
+                        //console.log('패스워드 변경 완료');
+                        res.redirect('/user/list');
+                    });
+                });
+            });
+        }
+    });
+});
 
 router.get('/login', function(req, res) {
     let view = require('./view/login');
