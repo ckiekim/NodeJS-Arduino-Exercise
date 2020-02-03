@@ -48,7 +48,8 @@ var createSensorSql = `
         sensingTime DATETIME DEFAULT CURRENT_TIMESTAMP,
         uid TEXT);
 `;
-var insertUserSql = "INSERT INTO dept VALUES(?, ?)";
+var insertDeptSql = "INSERT INTO dept VALUES(?, ?)";
+var insertUserSql = "INSERT INTO(uid, password, name, deptId, tel) user VALUES('admin', '$2a$10$NQYnfoHwqIagmb3hU1ck7ubNVnSHDboXQ9ctdBkmmZzk5SlTpfSPW', '관리자', 101, '010-2345-6789'";
 var selectDeptSql = "SELECT * FROM dept";
 var insertActuatorSql = "INSERT INTO actuator(reason, uid) VALUES('Initial value', 'admin')";
 var insertSensorSql = "INSERT INTO sensor(uid) VALUES('admin')";
@@ -65,9 +66,10 @@ db.serialize(function() {
     db.run(createActuatorSql);
     db.run(createSensorSql);
 
+    db.run(insertUserSql);
     db.run(insertActuatorSql);
     db.run(insertSensorSql);
-    var stmt = db.prepare(insertUserSql);
+    var stmt = db.prepare(insertDeptSql);
     for (let record of records) {
         stmt.run(record.did, record.name);
     }
