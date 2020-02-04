@@ -49,7 +49,7 @@ var createSensorSql = `
         uid TEXT);
 `;
 var insertDeptSql = "INSERT INTO dept VALUES(?, ?)";
-var insertUserSql = "INSERT INTO(uid, password, name, deptId, tel) user VALUES('admin', '$2a$10$NQYnfoHwqIagmb3hU1ck7ubNVnSHDboXQ9ctdBkmmZzk5SlTpfSPW', '관리자', 101, '010-2345-6789'";
+var insertUserSql = "INSERT INTO user(uid, password, name, deptId, tel) VALUES('admin', '$2a$10$NQYnfoHwqIagmb3hU1ck7ubNVnSHDboXQ9ctdBkmmZzk5SlTpfSPW', '관리자', 101, '010-2345-6789')";
 var selectDeptSql = "SELECT * FROM dept";
 var insertActuatorSql = "INSERT INTO actuator(reason, uid) VALUES('Initial value', 'admin')";
 var insertSensorSql = "INSERT INTO sensor(uid) VALUES('admin')";

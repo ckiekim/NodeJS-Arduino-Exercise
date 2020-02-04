@@ -15,7 +15,8 @@ const userRouter = require('./userRouter');
 //app.use('/popper', express.static(__dirname + '/node_modules/popper.js/dist'));
 //app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
 //app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist')); // redirect jQuery
-app.use('/fontawesome', express.static(__dirname + '/fontawesome-free-5.12.0-web/js'));
+//app.use('/fontawesome', express.static(__dirname + '/fontawesome-free-5.12.0-web/js'));
+app.use('/fontawesome', express.static(__dirname + '/node_modules/@fortawesome/fontawesome-free/js'));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static('public'));
 app.use(favicon('favicon.ico'));
