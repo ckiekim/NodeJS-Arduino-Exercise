@@ -21,50 +21,11 @@ module.exports = {
             </nav>
         `;
     },
-    navMain: function(userName, weather) {
-        if (userName !== undefined) {
-            return `<a href="/create">글쓰기</a>&nbsp;&nbsp;
-                    <a href="/user/logout">로그아웃</a>&nbsp;&nbsp;
-                    ${userName} 님 환영합니다.&nbsp;&nbsp;&nbsp;${weather}`;
-        } else {
-            return `<a href="/">홈으로</a>&nbsp;&nbsp;
-                    <a href='/user/login'>로그인</a>&nbsp;&nbsp;
-                    <a href='/user/register'>사용자 등록</a>&nbsp;&nbsp;&nbsp;${weather}`;
-        }
-    },
-    navList: function(userName, id, weather) {
-        if (userName !== undefined) {
-            return `<a href="/">홈으로</a>&nbsp;&nbsp;
-                    <a href="/create">글쓰기</a>&nbsp;&nbsp;
-                    <a href="/update/${id}">수정하기</a>&nbsp;&nbsp;
-                    <a href="/delete/${id}">삭제하기</a>&nbsp;&nbsp;
-                    <a href="/user/logout">로그아웃</a>&nbsp;&nbsp;
-                    ${userName} 님 환영합니다.&nbsp;&nbsp;&nbsp;${weather}`;  
-        } else {
-            return `<a href="/">홈으로</a>&nbsp;&nbsp;
-                    <a href='/user/login'>로그인</a>&nbsp;&nbsp;
-                    <a href='/user/register'>사용자 등록</a>&nbsp;&nbsp;&nbsp;${weather}`;
-        }
-    },
-    navOp: function(userName, weather) {
-        if (userName!== undefined) {
-            return `<a href="/">홈으로</a>&nbsp;&nbsp;
-                    <a href="/user/logout">로그아웃</a>&nbsp;&nbsp;
-                    ${userName} 님 환영합니다.&nbsp;&nbsp;&nbsp;${weather}`;  
-        } else {
-            return `<a href="/">홈으로</a>&nbsp;&nbsp;
-                    <a href='/user/login'>로그인</a>&nbsp;&nbsp;
-                    <a href='/user/register'>사용자 등록</a>&nbsp;&nbsp;&nbsp;${weather}`;
-        }
-    },
-    tableItem: function(row) {
-        let _content = row.content.replace(/\r\n/g, '<br>');
+    weather: function(temp, humid, ico) {
         return `
-            <tr><td>ID</td><td>${row.id}</td></tr>
-            <tr><td>제목</td><td>${row.title}</td></tr>
-            <tr><td>글쓴이</td><td>${row.userId}</td></tr>
-            <tr><td>최종수정시간</td><td>${row.ts}</td></tr>
-            <tr><td>조회수</td><td>${row.hit}</td></tr>
-            <tr><td>내용</td><td>${_content}</td></tr>`;
+            <a href='/weather'><button type="button" class="btn btn-secondary btn-sm">날씨</button></a>&nbsp;
+            <img src="${ico}" width="32" height="32">&nbsp;
+            기온: ${temp}&#8451;, 습도: ${humid}% &nbsp;&nbsp;&nbsp;
+        `;
     }
 }

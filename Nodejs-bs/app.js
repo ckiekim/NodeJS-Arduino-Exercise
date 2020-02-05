@@ -113,6 +113,21 @@ app.post('/actuator', function(req, res) {
         });
     });
 });
+app.get('/weather', function(req, res) {
+    if (req.session.userName === undefined) {
+        let html = alert.alertMsg('먼저 로그인하세요.', '/user/login');
+        res.send(html);
+    } else {
+        let view = require('./view/weather');
+        wm.getWeather(function(weather) {
+            let navBar = template.navBar(weather, req.session.userName);
+            wm.weatherObj(function(result) {
+                let html = view.weather(navBar, result);
+                res.send(html);
+            });
+        });
+    }
+});
 
 app.get('*', function(req, res) {
     res.status(404).send('File not found');
