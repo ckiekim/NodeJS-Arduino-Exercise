@@ -34,7 +34,7 @@ app.get('/', function(req, res) {
     } else {
         let view = require('./view/main');
         wm.getWeather(function(weather) {
-            let navBar = template.navBar(weather, req.session.userName);
+            let navBar = template.navBar(true, weather, req.session.userName);
             let temp, humid, cds, sTime, sUid;
             dbModule.getCurrentSensor(function(srow) {
                 temp = srow.temperature;
@@ -61,7 +61,7 @@ app.get('/sensor', function(req, res) {
     } else {
         let view = require('./view/sensor');
         wm.getWeather(function(weather) {
-            let navBar = template.navBar(weather, req.session.userName);
+            let navBar = template.navBar(false, weather, req.session.userName);
             sm.remoteInfo('GET', function(result) {
                 let temperature = result.temperature;
                 let humidity = result.humidity;
@@ -83,7 +83,7 @@ app.get('/actuator', function(req, res) {
     } else {
         let view = require('./view/actuator');
         wm.getWeather(function(weather) {
-            let navBar = template.navBar(weather, req.session.userName);
+            let navBar = template.navBar(false, weather, req.session.userName);
             dbModule.getCurrentActuator(function(result) {
                 let html = view.actuator(navBar, result.redLED, result.greenLED, result.blueLED, result.relay);
                 res.send(html);
@@ -120,7 +120,7 @@ app.get('/weather', function(req, res) {
     } else {
         let view = require('./view/weather');
         wm.getWeather(function(weather) {
-            let navBar = template.navBar(weather, req.session.userName);
+            let navBar = template.navBar(false, weather, req.session.userName);
             wm.weatherObj(function(result) {
                 let html = view.weather(navBar, result);
                 res.send(html);
