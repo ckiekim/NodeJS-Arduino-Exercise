@@ -8,12 +8,13 @@ const wm = require('./weather-module');
 const router = express.Router();
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  //res.send('respond with a resource');
+  res.redirect('/user/list');
 });
 router.get('/register', function(req, res) {
     dbModule.getAllDepts(function(rows) {
         wm.getWeather(function(weather) {
-            let navBar = template.navBar(weather, req.session.userName);        
+            let navBar = template.navBar(false, weather, req.session.userName);        
             let view = require('./view/registerUser');
             let html = view.registerUser(navBar, rows);
             res.send(html);
@@ -57,7 +58,7 @@ router.post('/register', function(req, res) {
 router.get('/list', function(req, res) {
     dbModule.getAllUsers(function(rows) {
         wm.getWeather(function(weather) {
-            let navBar = template.navBar(weather, req.session.userName);        
+            let navBar = template.navBar(false, weather, req.session.userName);        
             let view = require('./view/listUser');
             let html = view.listUser(navBar, rows);
             res.send(html);
@@ -69,7 +70,7 @@ router.get('/update/uid/:uid', function(req, res) {
     dbModule.getAllDepts(function(rows) {
         dbModule.getUserInfo(uid, function(row) {
             wm.getWeather(function(weather) {
-                let navBar = template.navBar(weather, req.session.userName);        
+                let navBar = template.navBar(false, weather, req.session.userName);        
                 let view = require('./view/updateUser');
                 let html = view.updateUser(navBar, rows, row);  // navBar, dept, user
                 res.send(html);
@@ -89,7 +90,7 @@ router.post('/update', function(req, res) {
 router.get('/delete/uid/:uid', function(req, res) {
     let uid = req.params.uid;
     wm.getWeather(function(weather) {
-        let navBar = template.navBar(weather, req.session.userName);        
+        let navBar = template.navBar(false, weather, req.session.userName);        
         let view = require('./view/deleteUser');
         let html = view.deleteUser(navBar, uid); 
         res.send(html);
@@ -104,7 +105,7 @@ router.post('/delete', function(req, res) {
 router.get('/password/uid/:uid', function(req, res) {
     let uid = req.params.uid;
     wm.getWeather(function(weather) {
-        let navBar = template.navBar(weather, req.session.userName);        
+        let navBar = template.navBar(false, weather, req.session.userName);        
         let view = require('./view/changePassword');
         let html = view.changePassword(navBar, uid); 
         res.send(html);
