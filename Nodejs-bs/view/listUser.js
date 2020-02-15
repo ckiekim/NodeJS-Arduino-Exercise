@@ -5,13 +5,13 @@ module.exports.listUser = function(navBar, rows) {
             <tr>
                 <td>${row.uid}</td><td>${row.name}</td><td>${row.deptName}</td><td>${row.tel}</td><td>${row.ts}</td>
                 <td><a href="/user/update/uid/${row.uid}"><i class="far fa-edit"></i></a>&nbsp;&nbsp;&nbsp;
-                    <a href="/user/password/uid/${row.uid}"><i class="fas fa-key"></i></a>&nbsp;&nbsp;&nbsp;
                     <a href="/user/delete/uid/${row.uid}"><i class="far fa-trash-alt"></i></a>
                 </td>
             </tr>`;
     }
     
-	return `
+    return `
+<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
@@ -57,12 +57,12 @@ module.exports.listUser = function(navBar, rows) {
                 <div class="col-12"><h3>사용자 조회</h3></div>
                 <div class="col-12"><hr></div>
                 <div class="col-11">
-                    <table class="table table-condensed table-hover">
+                    <table class="table table-condensed table-hover table-row">
                         <thead class="thead-light">
                             <tr class="active">
-                                <th scope="col">아이디</th><th scope="col">이름</th>
-                                <th scope="col">부서</th><th scope="col">전화번호</th>
-                                <th scope="col">등록일자</th><th scope="col">Action</th>
+                                <th>아이디</th><th>이름</th>
+                                <th>부서</th><th>전화번호</th>
+                                <th>등록일자</th><th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -85,3 +85,4 @@ module.exports.listUser = function(navBar, rows) {
 </html>
     `;
 }
+//<a href="/user/password/uid/${row.uid}"><i class="fas fa-key"></i></a>&nbsp;&nbsp;&nbsp;

@@ -53,11 +53,11 @@ module.exports = {
         });
         db.close();
     },
-    updateUser: function(uid, name, deptId, tel, callback) {
+    updateUser: function(uid, password, name, deptId, tel, callback) {
         let db = new sqlite3.Database("db/smartfarm.db");
-        let sql = `UPDATE user SET name=?, deptId=?, tel=? WHERE uid=?`;
+        let sql = `UPDATE user SET password=?, name=?, deptId=?, tel=? WHERE uid=?`;
         let stmt = db.prepare(sql);
-        stmt.run(name, deptId, tel, uid, function(err) {
+        stmt.run(password, name, deptId, tel, uid, function(err) {
             if (err) {
                 console.error('registerUser DB 에러', err);
                 return;          

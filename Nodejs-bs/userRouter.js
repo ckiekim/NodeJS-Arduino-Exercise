@@ -83,8 +83,40 @@ router.post('/update', function(req, res) {
     let name = req.body.name;
     let deptId = req.body.deptId;
     let tel = req.body.tel;
-    dbModule.updateUser(uid, name, deptId, tel, function() {
-        res.redirect('/user/list');
+    let changePswd = req.body.changePswd;
+    let oldPswd = req.body.oldPswd;
+    let password = req.body.password;
+    let password2 = req.body.password2;
+    //console.log(changePswd, oldPswd, password, password2);
+    dbModule.getUserInfo(uid, function(row) {
+        if (changePswd === undefined) {         // 패스워드 변경 체크박스가 공란일 때
+            dbModule.updateUser(uid, row.password, name, deptId, tel, function() {
+                res.redirect('/user/list');
+            });
+        } else {            // 패스워드 변경 체크박스가 체크되어 있을 때
+            bcrypt.compare(oldPswd, row.password, function(err, result) {   // 입력한 현재 패스워드와 DB에 있는 패스워드 비교
+                if (result) {
+                    if (password.length < 4) {
+                        let html = alert.alertMsg('비밀번호를 4글자 이상 입력하세요.', `/user/update/uid/${uid}`);
+                        res.send(html);
+                    } else if (password != password2) {
+                        let html = alert.alertMsg('신규 비밀번호가 다릅니다.', `/user/update/uid/${uid}`);
+                        res.send(html);               
+                    } else {
+                        bcrypt.genSalt(10, function(err, salt) {
+                            bcrypt.hash(password, salt, null, function(err, hash) {
+                                dbModule.updateUser(uid, hash, name, deptId, tel, function() {
+                                    res.redirect('/user/list');
+                                });
+                            });
+                        });
+                    }
+                } else {
+                    let html = alert.alertMsg('현재 패스워드가 틀립니다.', `/user/update/uid/${uid}`);
+                    res.send(html);
+                }
+            });
+        }
     });
 });
 router.get('/delete/uid/:uid', function(req, res) {
